@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+
+
+\title{A Constructive Approach to Lagrange's Multipliers in Analytical Mechanics}
+\author{Nicolas A. N. Salas  }
+\date{5 February 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+The derivation of the Euler-Lagrange's equations for a system without constraints relies heavily on the independence of the virtual displacements of the coordinates with respect to which the Lagrangian is written, this prevents the technique used for the unconstrained case to be directly applied to a system with constraints. There are two standard ways of overcoming this difficulty: to use the constraints to write the Lagrangian in new independent\footnote{ It is always possible for holonomic and semiholonomic constraints, for other types it may or not be possible. } coordinates, and the method of Lagrange's Multipliers. The latter is usually explained in most textbooks as just a useful modification of the original Lagrangian that allows to eliminate dependent coordinates; my objective in this article is to explore in further detail the method and show how it can be deduced in a more motivated and constructive way. For this I'll start with the case of a Lagrangian $L(q,\dot{q},t)$ of $n$ coordinates and 1 constraint, then it is shown that the solution to this variational problem is a modified Euler-Lagrange's equation that can be obtained adding a simple term to the Lagrangian, last an arbitrarily number of constraints are introduced to the problem.
+
+\section{Solution for 1 constraint}
+Let $L(q,\dot{q},t)$ be a Lagrangian in $n$ variables and $f_1(q,t)=0$ an holonomic constraint. Taking $\epsilon$ to be the variation parameter we write the first variation of the action:
+
+\begin{equation}\label{action integral in  q}
+    \delta S=\int_{t_1}^{t_2} \sum_{j=1}^{n} \bigg[\frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}}\bigg]\frac{\partial q_j}{\partial \epsilon}  \,dtd\epsilon 
+\end{equation}
+\justify
+In absence of constraints the stationary value condition (i.e. $\delta s=0$) would give that the square brackets are identically 0 for all $j$ due to the coordinates being independent; the presence of the constraint prohibits this, as now only $n-1$ are independent. This problem can be easily overcome as is shown for the case $n=2$ in ; without loss of generality assume that removing $q_1$ from $q$ makes the set linearly, then we want to consider the variation of the constraint and use it to write $\frac{\partial q_1}{\partial \epsilon}$ in terms of the independent coordinates, this will give us equation (\ref{action integral in  q}) in a form to which an independence argument can be applied.
+\\\\
+Obtaining $\frac{\partial q_1}{\partial \epsilon}$ from the first variation of the constraint:
+\begin{equation*}
+\begin{split}
+    0=& \sum_{j=1}^{n} \frac{\partial f_1}{\partial q_j} \frac{\partial q_j}{\partial\epsilon}\\
+    \frac{\partial q_1}{\partial \epsilon} =& \bigg(-\frac{\partial f_1}{\partial q_1}  \bigg)^{-1}  \sum_{j=2}^{n} \frac{\partial f_1}{\partial q_j} \frac{\partial q_j}{\partial\epsilon}
+\end{split}
+\end{equation*}
+Now substituting in (\ref{action integral in  q}) and factoring $\frac{\partial q_j}{\partial\epsilon}$:
+
+\begin{equation*}
+    \begin{split}
+        \delta S =& \int_{t_1}^{t_2} \bigg(\frac{\partial L}{\partial {q_1}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_1}} \bigg) \frac{\partial q_1}{\partial \epsilon} + \sum_{j=2}^{n} \bigg[\frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}}\bigg]\frac{\partial q_j}{\partial q_j}  \,dtd\epsilon\\
+        \delta S =& \int_{t_1}^{t_2} \bigg(\frac{\partial L}{\partial {q_1}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_1}} \bigg) \bigg(-\frac{\partial f_1}{\partial q_1}  \bigg)^{-1}  \sum_{j=2}^{n} \frac{\partial f_1}{\partial q_j} \frac{\partial q_j}{\partial\epsilon} + \sum_{j=2}^{n} \bigg[\frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}}\bigg]\frac{\partial q_j}{\partial q_j}  \,dtd\epsilon\\
+        \delta S =& \int_{t_1}^{t_2} \sum_{j=2}^{n} \bigg[ \bigg(\frac{\partial L}{\partial {q_1}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_1}} \bigg) \bigg(-\frac{\partial f_1}{\partial q_1}  \bigg)^{-1}\frac{\partial f_1}{\partial q_j} + \bigg( \frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}}   \bigg)\bigg] \frac{\partial q_j}{\partial \epsilon} \,dtd\epsilon
+  \end{split}
+\end{equation*}
+Now we set $\delta S=0$ and due to the sum being over independent variables, it is obtained that for every $j$:
+
+\begin{equation*}
+    \begin{split}
+        0&=\bigg(\frac{\partial L}{\partial {q_1}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_1}} \bigg) \bigg(-\frac{\partial f_1}{\partial q_1}  \bigg)^{-1}\frac{\partial f_1}{\partial q_j} + \bigg( \frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}}   \bigg)\\
+        \bigg(\frac{\partial L}{\partial {q_1}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_1}} \bigg) \bigg(\frac{\partial f_1}{\partial q_1}  \bigg)^{-1} &= \bigg( \frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}} \bigg)\bigg(\frac{\partial f_1}{\partial q_j}  \bigg)^{-1}
+    \end{split}
+\end{equation*}
+Here comes the introduction of the Lagrange's Multiplier: define a function $\lambda_1(t)$ that is equal to both sided of both sides of last equation, this plus the constraint equation give us the set of equations that describe the solution to our problem.
+
+\begin{equation*}
+    \lambda_1(t) = \bigg( \frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}} \bigg)\bigg(\frac{\partial f_1}{\partial q_j}  \bigg)^{-1}
+\end{equation*}
+\begin{equation}\label{Modified E-L equation with 1 constraint}
+    \frac{\partial L}{\partial {q_j}} -\frac{d}{dt}\frac{\partial L}{\partial \dot{q_j}}=\frac{\partial f_1}{\partial q_j}\lambda_1(t)
+\end{equation}
+Then the complete solution of the problem requires to solve a set of $n+1$ equations ((\ref{Modified E-L equation with 1 constraint}) for every $j$ + the constraint), finding all of the $q_j(t)$ and $\lambda_1(t)$. 
+
+\subsection{Modified Lagrangian}
+
+\end{document}
+
