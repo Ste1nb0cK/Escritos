@@ -2,6 +2,7 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{ragged2e}
+\usepackage{mathrsfs}
 
 
 \title{A Constructive Approach to Lagrange's Multipliers in Analytical Mechanics}
@@ -16,6 +17,7 @@
 The derivation of the Euler-Lagrange's equations for a system without constraints relies heavily on the independence of the virtual displacements of the coordinates with respect to which the Lagrangian is written, this prevents the technique used for the unconstrained case to be directly applied to a system with constraints. There are two standard ways of overcoming this difficulty: to use the constraints to write the Lagrangian in new independent\footnote{ It is always possible for holonomic and semiholonomic constraints, for other types it may or not be possible. } coordinates, and the method of Lagrange's Multipliers. The latter is usually presented as just a useful modification of the original Lagrangian that allows to eliminate dependent coordinates; my objective in this article is to explore in further detail the method and show how it can be deduced in a more motivated and constructive way. For this I'll start with the case of a Lagrangian $L(q,\dot{q},t)$ of $n$ coordinates and 1 constraint, then show that the solution to this variational problem is a modified Euler-Lagrange's equation that can be obtained adding a simple term to the Lagrangian, last an arbitrarily number of constraints are introduced to the problem.
 
 \section{Solution for 1 constraint}
+\subsection{Introduction of the constraint in the problem} \label{introduction of the constraint in the problem}
 Let $L(q,\dot{q},t)$ be a Lagrangian in $n$ variables and $f_1(q,t)=0$ an holonomic constraint. Taking $\epsilon$ to be the variation parameter we write the first variation of the action:
 
 \begin{equation}\label{action integral in  q}
@@ -81,9 +83,53 @@ m\vec{a} = -\nabla V + \lambda_1 \nabla f_1
 \end{equation}
 \justify
 Clearly the particle most move on the curve $f_1(x,y)=0$; the term with the Lagrange's multiplier is perpendicular to the trayectory and must be a force of constraint.
-
+\pagebreak
 \section{Introduction of the remaining constraints} 
+\subsection{Introducing more constraints}
+Now the task is to generalize the aproach to multiple constraints; for this we will start from the modified form of the Lagrangian and then proceed to repeat the same process that allowed us to introduce the first constraint, as many times as required.  \\
+\justify 
+First a matter of notation to make the calculations less cumbersome and center our attention in the important details. Let there be $m$ holonomic constraints noted as $f_\alpha(q,t)$ and also let $\mathscr{L}^j$ be defined as:
 
+\begin{equation}
+ \mathscr{L}^j = \frac{\partial L}{\partial q_j} - \frac{d}{dt} \frac{\partial L}{\partial \dot{q}_j} + \lambda_1 \frac{\partial f_1}{\partial q_j}
+\end{equation}
+Now consider the variation of the action:
+
+\begin{equation} \label{first modified action in section 3}
+\delta S = \int_{t_1}^{t_2} \sum_{j=1}^{n} \mathscr{L}^j \frac{\partial q_j}{\partial \epsilon} \, dtd\epsilon
+\end{equation}
+\justify
+We repeat the same process done in section \ref{introduction of the  constraint in the problem} that allowed to introduce a constraint; now we assume that if we remove both $q_1$ and $q_2$ the set $q$ will be independent and we use $f_2$ to substitute $\frac{\partial q_2}{\partial \epsilon}$ in (\ref{first modified action in section 3}):
+
+\begin{equation*}
+\begin{split}
+    0=& \sum_{j=1}^{n} \frac{\partial f_2}{\partial q_j} \frac{\partial q_j}{\partial\epsilon}\\
+    \frac{\partial q_2}{\partial \epsilon} =& \bigg(-\frac{\partial f_2}{\partial q_2} \bigg)^{-1} \bigg( \frac{\partial f_2}{\partial q_1} \frac{\partial q_1}{\partial\epsilon}+\sum_{j=3}^{n} \frac{\partial f_2}{\partial q_j} \frac{\partial q_j}{\partial\epsilon} \bigg)
+\end{split}
+\end{equation*}
+Substitute in (\ref{first modified action in section 3}):
+
+\begin{equation}
+\begin{split}
+\delta S &=                                                                 \int_{t_1}^{t_2} \mathscr{L}^1\frac{\partial q_1}{\partial \epsilon} + \mathscr{L}^2 \bigg(-\frac{\partial f_2}{\partial q_2} \bigg)^{-1} \bigg( \frac{\partial f_2}{\partial q_1} \frac{\partial q_1}{\partial\epsilon}+\sum_{j=3}^{n} \frac{\partial f_2}{\partial q_j} \frac{\partial q_j}{\partial\epsilon} \bigg) +                                                                    \sum_{j=3}^{n} \mathscr{L}^j \frac{\partial q_j}{\partial \epsilon} \, dtd\epsilon\\
+\delta S &= \int_{t_1}^{t_2} \bigg( \mathscr{L}^1 + \mathscr{L}^2 \bigg( -\frac{\partial f_2}{\partial q_2} \bigg)^{-1} \frac{\partial f_2}{\partial q_1}  \bigg) \delta q_1 + \sum_{j=3}^{n} \mathscr{L}^j + \frac{\partial f_2}{\partial q_j}\bigg( -\frac{\partial f_2}{\partial q_2} \bigg)^{-1} \mathscr{L}^2 \delta q_j \, dt\\
+\end{split}
+\end{equation}
+Now define $\lambda_1$ to eliminate the first term and use and independence argument, that will give us a new modified equation that resembles to what we obtained in section (\ref{introduction of the constraint in the problem}):
+
+\begin{equation} \label{definition of the lagrange multiplier 2}
+\mathscr{L}^j \bigg( \frac{\partial f_2}{\partial q_j} \bigg)^{-1}=\mathscr{L}^2 \bigg( \frac{\partial f_2}{\partial q_2} \bigg)^{-1}
+\end{equation}
+Naturally the following step must be defining $\lambda_2$ as being equal to both sides of (\ref{definition of the lagrange multiplier 2}) and conclude:
+\begin{equation}
+\frac{\partial L}{\partial q_j}  + \lambda_1 \frac{\partial f_1}{\partial q_j} + \lambda_2 \frac{\partial f_2}{\partial q_j}=\frac{d}{dt} \frac{\partial L}{\partial \dot{q}_j}
+\end{equation}
+From here it is easily seen that this process of defining new paremeters to eliminate dependent variables can be repeated as many times as possible; is also intuitive now that the appropiate modification of the Lagrangian in order to introduce the constraints must be: 
+
+\begin{equation}
+L' = L(q,\dot{q},t) + \sum_{\alpha=1}^{m}\lambda_{\alpha} f_{\alpha}
+\end{equation}
+As suggested in \cite{goldstein2002classical}\cite{marion2013classical}.
 \bibliography{Bibliography.bib}{}
 \bibliographystyle{plain}
 \end{document}
